@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
     }
     console.log(options);
     if (!working) {
-    	working = true;
+        working = true;
         var cont = true;
         var count = 0;
         res.set('Content-Type', 'text/plain');
@@ -30,8 +30,11 @@ app.get('/', function(req, res) {
                 res.end();
             }
         });
+        setTimeout(function() {
+            cont = false;
+        }, limit * 500);
     } else {
-    	res.end('Current proccessing another query, please try again later');
+        res.end('Current proccessing another query, please try again later');
     }
 
 })
