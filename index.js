@@ -32,6 +32,8 @@ app.get('/', function(req, res) {
         });
         setTimeout(function() {
             cont = false;
+            working = false;
+            res.end();
         }, limit * 500);
     } else {
         res.end('Current proccessing another query, please try again later');
