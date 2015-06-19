@@ -13,35 +13,35 @@ app.get('/', function(req, res) {
     var query = req.query.q || 'hoang+do';
     var limit = req.query.num || 100;
     var lang = req.query.lang || 'en';
-    var space = req.query.space || '<br />';
     var options = {
         query: query,
         limit: limit,
         lang: lang
     }
     console.log(options);
+    res.setHeader('Content-Type', 'application/json');
     if (!working) {
         working = true;
+        var urls = [];
         var cont = true;
-        var count = 0;
-        res.set('Content-Type', 'text/plain');
+        var count = 0;   
         scraper.search(options, function(err, url) {
             if (err) throw err;
-            if (cont) res.write(url + space);
+            if (cont) urls.push(url)
             count++;
             if (count > limit) {
                 cont = false;
                 working = false;
-                res.end();
+                res.send(JSON.stringify({urls: urls}));
             }
         });
         setTimeout(function() {
             cont = false;
             working = false;
-            res.end();
+            res.send(JSON.stringify({urls: urls}));
         }, limit * 500);
     } else {
-        res.end('Current proccessing another query, please try again later');
+        res.send(JSON.stringify({mess: 'Current proccessing another query, please try again later'}));
     }
 
 })
