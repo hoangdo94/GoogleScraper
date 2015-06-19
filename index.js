@@ -1,8 +1,13 @@
 var express = require('express');
 var app = express();
 var scraper = require('google-search-scraper');
-
 var working = false;
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.get('/', function(req, res) {
     var query = req.query.q || 'hoang+do';
